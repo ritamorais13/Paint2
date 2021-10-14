@@ -5,5 +5,7 @@
     <string name="about">About</string>
     <string name="title_activity_about">about</string>
     <string name="settingsResume">Here you can change the background color for the main page.</string>
-
+    <string name="paint">PAINT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -9,13 +9,16 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="c1">#F44336</color>
-    <color name="c2">#9C27B0</color>
-    <color name="c3">#3F51B5</color>
-    <color name="c4">#00BCD4</color>
-    <color name="c5">#009688</color>
-    <color name="c6">#4CAF50</color>
-    <color name="c7">#FFEB3B</color>
-    <color name="c8">#FF9800</color>
-    <color name="c9">#FFFFFFFF</color>
+    <color name="c2">#E43B75</color>
+    <color name="c3">#9C27B0</color>
+    <color name="c4">#3F51B5</color>
+    <color name="c5">#00BCD4</color>
+    <color name="c6">#009688</color>
+    <color name="c7">#4CAF50</color>
+    <color name="c8">#FFEB3B</color>
+    <color name="c9">#FF9800</color>
+    <color name="c10">#FFFFFF</color>
+    <color name="c11">#817C7C</color>
+    <color name="c12">#000000</color>
 
 </resources>
