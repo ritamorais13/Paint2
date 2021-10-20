@@ -1,14 +1,18 @@
 package com.example.paint;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +22,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     private static int BACK_COLOR;
+    private SharedPreferences preferences;
 
     @Override
     public Resources getResources() {
@@ -28,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        BACK_COLOR = preferences.getInt("back_color", Color.WHITE);
+        setColor();
     }
 
     @Override
@@ -44,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.about:
                 about();
+                return true;
+            case R.id.abstractPaint:
+                abstractPaint();
                 return true;
             case R.id.exit:
                 exit();
@@ -92,10 +105,18 @@ public class MainActivity extends AppCompatActivity {
             default:
                 BACK_COLOR = getResources().getColor(R.color.c12);
         }
-        findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
+        setColor();
     }
 
-    public void showPalette(){
+    public void setColor(){
+        findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
+
+        //Guarda a cor do background no ficheiro de preferencias
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("back_color", BACK_COLOR);
+        editor.apply();
+    }
+    public void showPalette(View view){
         View v = findViewById(R.id.fragment_palette);
         if(v.getVisibility() == View.VISIBLE)
             v.setVisibility(View.INVISIBLE);
@@ -109,11 +130,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void abstractPaint(){
+        Intent intent = new Intent(this, Paint.class);
+        startActivity(intent);
+    }
+
     public void exit(){
         android.os.Process.killProcess(android.os.Process.myPid());
     }
-
-
-
-
 }
