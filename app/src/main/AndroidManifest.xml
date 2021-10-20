@@ -21,6 +21,7 @@
 
         <activity
             android:name=".Paint"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:parentActivityName=".MainActivity">
             <meta-data
