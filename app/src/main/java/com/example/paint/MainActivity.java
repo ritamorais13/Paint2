@@ -1,37 +1,42 @@
 package com.example.paint;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Path;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private static int BACK_COLOR;
     private SharedPreferences preferences;
-    private Path path;
+    private FragmentPalette fragmentPalette;
+    private FragmentCanvas fragmentCanvas;
+    private SensorManager sensorManager;
+    private Sensor light;
+    WindowManager.LayoutParams layout;
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,63 @@ public class MainActivity extends AppCompatActivity{
         preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         BACK_COLOR = preferences.getInt("back_color", Color.WHITE);
         setColor();
+
+        FragmentManager manager = getSupportFragmentManager();
+        fragmentCanvas = (FragmentCanvas) manager.findFragmentById(R.id.fragment_canvas);
+        fragmentPalette = (FragmentPalette) manager.findFragmentById(R.id.fragment_palette);
+
+        fragmentPalette.setStrokeColorListener(new FragmentPalette.ColorStrokeListener() {
+            @Override
+            public void onColorStrokeChange(int color) {
+                fragmentCanvas.updateStrokeColor(color);
+            }
+        });
+
+        //Light Sensor
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+        layout = getWindow().getAttributes();
+        layout.screenBrightness = 1F;
+        getWindow().setAttributes(layout);
+    }
+
+    @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+    }
+
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        float ambientLight = event.values[0];
+
+        if(ambientLight < 1){
+            layout.screenBrightness = 0.0F;
+        }
+        else{
+            if(ambientLight >1 && ambientLight <4){
+                layout.screenBrightness = 0.5F;
+            }
+            else{
+                layout.screenBrightness = 1F;
+            }
+        }
+        getWindow().setAttributes(layout);
+        // Do something with this sensor data.
+    }
+
+    @Override
+    protected void onResume() {
+        // Register a listener for the sensor.
+        super.onResume();
+        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        // Be sure to unregister the sensor when the activity pauses.
+        super.onPause();
+        sensorManager.unregisterListener(this);
     }
 
     @SuppressLint("NewApi")
@@ -114,8 +176,8 @@ public class MainActivity extends AppCompatActivity{
         setColor();
     }
 
-    public void linePath(View view){
-
+    public void changeStrokeColor(View view){
+        getSupportFragmentManager().findFragmentById(R.id.fragment_canvas);
     }
 
     public void setColor(){

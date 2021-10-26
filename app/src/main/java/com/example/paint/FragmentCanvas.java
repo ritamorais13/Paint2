@@ -3,12 +3,11 @@ package com.example.paint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 
 public class FragmentCanvas extends Fragment {
 
@@ -22,6 +21,10 @@ public class FragmentCanvas extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    public void updateStrokeColor(int color){
+        paintCanvas.changeStrokeColor(color);
     }
 
     @Override
