@@ -1,5 +1,6 @@
 package com.example.paint;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,14 @@ public class MainActivity extends AppCompatActivity{
         preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         BACK_COLOR = preferences.getInt("back_color", Color.WHITE);
         setColor();
+    }
+
+    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        onCreate(savedInstanceState);
     }
 
     @Override
