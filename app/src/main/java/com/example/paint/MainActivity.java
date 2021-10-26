@@ -1,28 +1,29 @@
 package com.example.paint;
 
-import android.app.Fragment;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static int BACK_COLOR;
     private SharedPreferences preferences;
+    private Path path;
 
     @Override
     public Resources getResources() {
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.about:
                 about();
-                return true;
-            case R.id.abstractPaint:
-                abstractPaint();
                 return true;
             case R.id.exit:
                 exit();
@@ -108,14 +105,19 @@ public class MainActivity extends AppCompatActivity {
         setColor();
     }
 
+    public void linePath(View view){
+
+    }
+
     public void setColor(){
         findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
 
-        //Guarda a cor do background no ficheiro de preferencias
+        //Guarda a cor do background no ficheiro preferences
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("back_color", BACK_COLOR);
         editor.apply();
     }
+
     public void showPalette(View view){
         View v = findViewById(R.id.fragment_palette);
         if(v.getVisibility() == View.VISIBLE)
@@ -130,12 +132,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void abstractPaint(){
-        Intent intent = new Intent(this, Paint.class);
-        startActivity(intent);
-    }
-
     public void exit(){
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
 }
