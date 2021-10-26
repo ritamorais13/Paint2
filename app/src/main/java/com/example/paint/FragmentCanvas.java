@@ -3,7 +3,6 @@ package com.example.paint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,9 @@ public class FragmentCanvas extends Fragment {
         paintCanvas.changeStrokeColor(color);
     }
 
+    public void clean(){
+        paintCanvas.erase();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = getActivity().getApplicationContext();

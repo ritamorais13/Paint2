@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private FragmentCanvas fragmentCanvas;
     private SensorManager sensorManager;
     private Sensor light;
+    private ShakeListener shaker;
     WindowManager.LayoutParams layout;
 
     @Override
@@ -57,10 +58,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        //Light Sensor
+        //Light and acc Sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        shaker = new ShakeListener(this);
+        shaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
+            @Override
+            public void onShake() {
+                fragmentCanvas.clean();
+            }
+        });
 
+        //Screnn Brigtness
         layout = getWindow().getAttributes();
         layout.screenBrightness = 1F;
         getWindow().setAttributes(layout);
@@ -87,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
         getWindow().setAttributes(layout);
-        // Do something with this sensor data.
     }
 
     @Override
@@ -175,11 +183,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         setColor();
     }
-
-    public void changeStrokeColor(View view){
-        getSupportFragmentManager().findFragmentById(R.id.fragment_canvas);
-    }
-
+    
     public void setColor(){
         findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
 

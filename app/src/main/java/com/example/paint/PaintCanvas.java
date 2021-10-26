@@ -97,6 +97,7 @@ public class PaintCanvas extends View implements View.OnTouchListener{
     }
 
     public void erase(){
+        path = new Path();
         paint.setColor(backGroundColor);
     }
 
