@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/layoutMain"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="1dp"
         android:background="#FDFDFD"
         android:orientation="vertical"
@@ -18,177 +18,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/allerta_stencil"
-            android:scrollbars="none"
-            android:text="@string/paint"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="#574048"
-            android:textSize="70sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:baselineAligned="false"
+            android:isScrollContainer="true"
+            android:nestedScrollingEnabled="true"
+            android:orientation="horizontal"
+            android:scrollbars="vertical">
 
-            <FrameLayout
-                android:id="@+id/fragment_palette"
-                android:layout_width="314dp"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="111dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button1"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#F44336"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#E43B75"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button3"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#9C27B0"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button4"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#3F51B5"
-                            android:onClick="changeBackColor"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="104dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button5"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#00BCD4"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button6"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#009688"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button7"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#4CAF50"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button8"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FFEB3B"
-                            android:onClick="changeBackColor" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="103dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button9"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FF9800"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button10"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FFFFFF"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button11"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#817C7C"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button12"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#000000"
-                            android:onClick="changeBackColor" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <FrameLayout
+            <fragment
                 android:id="@+id/fragment_canvas"
-                android:layout_width="match_parent"
+                android:name="com.example.paint.FragmentCanvas"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="end" />
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                tools:layout="@layout/fragment_canvas" />
+
+            <fragment
+                android:id="@+id/fragment_palette"
+                android:name="com.example.paint.FragmentPalette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:layout="@layout/fragment_palette">
+
+
+            </fragment>
 
         </LinearLayout>
 

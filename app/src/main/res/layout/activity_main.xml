@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/allerta_stencil"
+        android:scrollbars="none"
+        android:text="@string/paint"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#574048"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/layoutMain"
         android:layout_width="0dp"
@@ -16,163 +32,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <FrameLayout
-            android:id="@+id/fragment_canvas"
+            android:id="@+id/fragment_canvas_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible">
 
-            <FrameLayout
-                android:id="@+id/fragment_palette"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:visibility="invisible">
+            <fragment
+                android:id="@+id/fragment_canvas"
+                android:name="com.example.paint.FragmentCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                tools:layout="@layout/fragment_canvas">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="111dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button1"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#F44336"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#E43B75"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button3"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#9C27B0"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button4"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#3F51B5"
-                            android:onClick="changeBackColor"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="104dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button5"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#00BCD4"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button6"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#009688"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button7"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#4CAF50"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button8"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FFEB3B"
-                            android:onClick="changeBackColor" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="103dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button9"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FF9800"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button10"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#FFFFFF"
-                            android:onClick="changeBackColor" />
-
-                        <Button
-                            android:id="@+id/button11"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="28dp"
-                            android:background="#817C7C"
-                            android:onClick="changeBackColor"
-                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-                        <Button
-                            android:id="@+id/button12"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:background="#000000"
-                            android:onClick="changeBackColor" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </FrameLayout>
+            </fragment>
 
             <ImageButton
                 android:id="@+id/paletteButton"
@@ -181,26 +57,30 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="Palette"
+                android:background="@mipmap/palete"
+                android:contentDescription="@string/palette"
                 android:onClick="showPalette"
                 android:visibility="visible"
-                app:srcCompat="@mipmap/palete"
                 tools:ignore="ImageContrastCheck,RedundantDescriptionCheck" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/fragment_palette_frame"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/allerta_stencil"
-                android:scrollbars="none"
-                android:text="@string/paint"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#574048"
-                android:textSize="70sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                android:layout_gravity="bottom|start"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:visibility="visible">
+
+                <fragment
+                    android:id="@+id/fragment_palette"
+                    android:name="com.example.paint.FragmentPalette"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    tools:layout="@layout/fragment_palette" />
+
+            </FrameLayout>
 
         </FrameLayout>
 

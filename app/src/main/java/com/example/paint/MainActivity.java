@@ -1,44 +1,123 @@
 package com.example.paint;
 
-import android.app.Fragment;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private static int BACK_COLOR;
     private SharedPreferences preferences;
+    private FragmentPalette fragmentPalette;
+    private FragmentCanvas fragmentCanvas;
+    private SensorManager sensorManager;
+    private Sensor light;
+    private ShakeListener shaker;
+    WindowManager.LayoutParams layout;
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         BACK_COLOR = preferences.getInt("back_color", Color.WHITE);
         setColor();
+
+        FragmentManager manager = getSupportFragmentManager();
+        fragmentCanvas = (FragmentCanvas) manager.findFragmentById(R.id.fragment_canvas);
+        fragmentPalette = (FragmentPalette) manager.findFragmentById(R.id.fragment_palette);
+
+        fragmentPalette.setStrokeColorListener(new FragmentPalette.ColorStrokeListener() {
+            @Override
+            public void onColorStrokeChange(int color) {
+                fragmentCanvas.updateStrokeColor(color);
+            }
+        });
+
+        //Light and acc Sensor
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        shaker = new ShakeListener(this);
+        shaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
+            @Override
+            public void onShake() {
+                fragmentCanvas.clean();
+            }
+        });
+
+        //Screnn Brigtness
+        layout = getWindow().getAttributes();
+        layout.screenBrightness = 1F;
+        getWindow().setAttributes(layout);
+    }
+
+    @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+    }
+
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        float ambientLight = event.values[0];
+
+        if(ambientLight < 1){
+            layout.screenBrightness = 0.0F;
+        }
+        else{
+            if(ambientLight >1 && ambientLight <4){
+                layout.screenBrightness = 0.5F;
+            }
+            else{
+                layout.screenBrightness = 1F;
+            }
+        }
+        getWindow().setAttributes(layout);
+    }
+
+    @Override
+    protected void onResume() {
+        // Register a listener for the sensor.
+        super.onResume();
+        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        // Be sure to unregister the sensor when the activity pauses.
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        onCreate(savedInstanceState);
     }
 
     @Override
@@ -52,11 +131,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                help();
+                return true;
             case R.id.about:
                 about();
-                return true;
-            case R.id.abstractPaint:
-                abstractPaint();
                 return true;
             case R.id.exit:
                 exit();
@@ -107,15 +186,16 @@ public class MainActivity extends AppCompatActivity {
         }
         setColor();
     }
-
+    
     public void setColor(){
         findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
 
-        //Guarda a cor do background no ficheiro de preferencias
+        //Guarda a cor do background no ficheiro preferences
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("back_color", BACK_COLOR);
         editor.apply();
     }
+
     public void showPalette(View view){
         View v = findViewById(R.id.fragment_palette);
         if(v.getVisibility() == View.VISIBLE)
@@ -130,12 +210,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void abstractPaint(){
-        Intent intent = new Intent(this, Paint.class);
+    /* Called when the user taps the about button */
+    public void help (){
+        Intent intent = new Intent(this, Help.class);
         startActivity(intent);
     }
 
     public void exit(){
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
 }
