@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                help();
+                return true;
             case R.id.about:
                 about();
                 return true;
@@ -204,6 +207,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /* Called when the user taps the about button */
     public void about (){
         Intent intent = new Intent(this, About.class);
+        startActivity(intent);
+    }
+
+    /* Called when the user taps the about button */
+    public void help (){
+        Intent intent = new Intent(this, Help.class);
         startActivity(intent);
     }
 

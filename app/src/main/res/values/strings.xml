@@ -3,6 +3,10 @@
     <string name="splash">PAINT</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="help">Instructions</string>
+    <string name="instruction1">Shake the device ou double-click to clear the background.</string>
+    <string name="instruction2">Long press the screen to change the background to a random color.</string>
+    <string name="instruction3">Press the Button "Brush" to change brush color between black and white.</string>
     <string name="title_activity_about">about</string>
     <string name="settingsResume">Here you can change the background color for the main page.</string>
     <string name="paint">PAINT</string>

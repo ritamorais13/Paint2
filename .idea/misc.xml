@@ -7,7 +7,8 @@
         <entry key="..\:/Android/Paint/app/src/main/res/drawable/splash_background.xml" value="0.3111111111111111" />
         <entry key="..\:/Android/Paint/app/src/main/res/layout-land/activity_main.xml" value="0.22" />
         <entry key="..\:/Android/Paint/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.275" />
-        <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_about.xml" value="0.67" />
+        <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_about.xml" value="0.22" />
+        <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_help.xml" value="0.25" />
         <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_show_settings.xml" value="0.2602108036890646" />
         <entry key="..\:/Android/Paint/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
