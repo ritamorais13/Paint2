@@ -7,16 +7,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PaintCanvas extends View implements View.OnTouchListener{
 
-    private Paint paint = new Paint();
-    private Path path = new Path();
+    private List<Paint> paintList = new ArrayList<>();
+    private List<Path> pathList = new ArrayList<>();
+
     private SharedPreferences preferences;
     private int backGroundColor = Color.WHITE;
     private GestureDetector mGestureDetector;
@@ -29,6 +33,8 @@ public class PaintCanvas extends View implements View.OnTouchListener{
 
         setOnTouchListener(this);
         setBackgroundColor(backGroundColor);
+
+        pathList.add(new Path());
         initPaint();
     }
 
@@ -41,12 +47,17 @@ public class PaintCanvas extends View implements View.OnTouchListener{
         this.mGestureDetector = mGestureDetector;
         setOnTouchListener(this);
         setBackgroundColor(backGroundColor);
+        pathList.add(new Path());
         initPaint();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawPath(path, paint);// draws the path with the paint
+        int i = 0;
+        for(Path p : pathList) {
+            canvas.drawPath(p, paintList.get(i));// draws the path with the paint
+            i++;
+        }
     }
 
     @Override
@@ -66,10 +77,10 @@ public class PaintCanvas extends View implements View.OnTouchListener{
         float eventY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                path.moveTo(eventX, eventY);// updates the path initial point
+                pathList.get(pathList.size()-1).moveTo(eventX, eventY);// updates the path initial point
                 return true;
             case MotionEvent.ACTION_MOVE:
-                path.lineTo(eventX, eventY);// makes a line to the point each time this event is fired
+                pathList.get(pathList.size()-1).lineTo(eventX, eventY);// makes a line to the point each time this event is fired
                 break;
             case MotionEvent.ACTION_UP:// when you lift your finger
                 performClick();
@@ -84,7 +95,9 @@ public class PaintCanvas extends View implements View.OnTouchListener{
     }
 
     public void changeStrokeColor(int color){
-        paint.setColor(color);
+        pathList.add(new Path());
+        initPaint();
+        paintList.get(paintList.size()-1).setColor(color);
     }
 
     public void changeBackground(){
@@ -97,16 +110,20 @@ public class PaintCanvas extends View implements View.OnTouchListener{
     }
 
     public void erase(){
-        path = new Path();
-        paint.setColor(backGroundColor);
+        pathList.clear();
+        pathList.add(new Path());
+        paintList.clear();
+        initPaint();
+        Log.d("ENTROU LISTENER: " , "--- abanouuu ---");
     }
 
    private void initPaint(){
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(20f);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
+        paintList.add(new Paint());
+        paintList.get(paintList.size()-1).setAntiAlias(true);
+        paintList.get(paintList.size()-1).setStrokeWidth(20f);
+        paintList.get(paintList.size()-1).setColor(Color.BLACK);
+        paintList.get(paintList.size()-1).setStyle(Paint.Style.STROKE);
+        paintList.get(paintList.size()-1).setStrokeJoin(Paint.Join.ROUND);
     }
 
 }

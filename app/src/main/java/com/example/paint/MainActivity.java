@@ -11,15 +11,17 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private FragmentCanvas fragmentCanvas;
     private SensorManager sensorManager;
     private Sensor light;
-    private ShakeListener shaker;
     WindowManager.LayoutParams layout;
 
     @Override
@@ -58,16 +59,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        //Light and acc Sensor
+        //Light Sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        shaker = new ShakeListener(this);
-        shaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
-            @Override
-            public void onShake() {
-                fragmentCanvas.clean();
-            }
-        });
 
         //Screnn Brigtness
         layout = getWindow().getAttributes();
@@ -131,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.map:
+                map();
+                return true;
             case R.id.help:
                 help();
                 return true;
@@ -203,6 +200,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         else
             v.setVisibility(View.VISIBLE);
     }
+    /* Called when the user taps the map button */
+    public void map (){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 
     /* Called when the user taps the about button */
     public void about (){
@@ -210,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
-    /* Called when the user taps the about button */
+    /* Called when the user taps the help button */
     public void help (){
         Intent intent = new Intent(this, Help.class);
         startActivity(intent);
