@@ -1,6 +1,7 @@
 package com.example.paint;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.example.paint.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -37,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean drawing=false;
     private PolylineOptions options;
     private Polyline line;
+    private Marker marker;
 
     double latitude, longitude;
 
@@ -63,8 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mapFragment.getMapAsync(this);
             }
         }
-
-
     }
 
     @Override
@@ -96,6 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -109,7 +111,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 12.0f));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+        if (marker != null)
+            marker.remove();
+
+        marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
 
         if(drawing){
             options.add(new LatLng(latitude, longitude));
