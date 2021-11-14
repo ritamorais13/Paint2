@@ -2,11 +2,13 @@ package com.example.paint;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 public class FragmentCanvas extends Fragment {
 
@@ -26,13 +28,11 @@ public class FragmentCanvas extends Fragment {
         paintCanvas.changeStrokeColor(color);
     }
 
-    public void clean(){
-        paintCanvas.erase();
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = getActivity().getApplicationContext();
 
+        ShakeListener shaker = new ShakeListener(context);
         GestureListener mGestureListener = new GestureListener();
         GestureDetector mGestureDetector = new GestureDetector(getContext(), mGestureListener);
         mGestureDetector.setIsLongpressEnabled(true);
@@ -41,6 +41,15 @@ public class FragmentCanvas extends Fragment {
         paintCanvas = new PaintCanvas(getContext(), null, mGestureDetector);
         mGestureListener.setCanvas(paintCanvas);
 
+        shaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
+            @Override
+            public void onShake() {
+                Log.d("ENTROU LISTENER: " , "--- frag ---");
+                paintCanvas.erase();
+            }
+        });
+
         return paintCanvas;//inflater.inflate(R.layout.fragment_canvas, container, false);
     }
+
 }

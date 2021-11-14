@@ -13,4 +13,7 @@
     <string name="preference_file_key">preferenceFile</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="palette">Palette</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="mapDraw">Start Drawing</string>
+    <string name="mapStropDraw">Stop Drawing</string>
 </resources>
