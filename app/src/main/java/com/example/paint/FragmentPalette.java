@@ -43,7 +43,7 @@ public class FragmentPalette extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_palette, container, false);
 
-        Button btn = (Button) v.findViewById(R.id.brush_button);
+        Button btn = v.findViewById(R.id.brush_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
