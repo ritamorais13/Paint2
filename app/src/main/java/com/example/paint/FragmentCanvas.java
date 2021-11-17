@@ -33,6 +33,7 @@ public class FragmentCanvas extends Fragment {
         Context context = getActivity().getApplicationContext();
 
         ShakeListener shaker = new ShakeListener(context);
+
         GestureListener mGestureListener = new GestureListener();
         GestureDetector mGestureDetector = new GestureDetector(getContext(), mGestureListener);
         mGestureDetector.setIsLongpressEnabled(true);
@@ -44,12 +45,16 @@ public class FragmentCanvas extends Fragment {
         shaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
-                Log.d("ENTROU LISTENER: " , "--- frag ---");
                 paintCanvas.erase();
+                inflater.inflate(R.layout.fragment_canvas, container, false);
             }
         });
 
         return paintCanvas;//inflater.inflate(R.layout.fragment_canvas, container, false);
+    }
+
+    public PaintCanvas getPaintCanvas(){
+        return paintCanvas;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.paint;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,13 +11,22 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -28,11 +36,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private static int BACK_COLOR;
     private SharedPreferences preferences;
-    private FragmentPalette fragmentPalette;
     private FragmentCanvas fragmentCanvas;
     private SensorManager sensorManager;
     private Sensor light;
     WindowManager.LayoutParams layout;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseRef;
+    private FragmentManager manager;
 
     @Override
     public Resources getResources() {
@@ -43,21 +53,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.fragment_palette).setVisibility(View.INVISIBLE);
+        //Firebase Cloud Storage
+        database = FirebaseDatabase.getInstance ("https://paint-331720-default-rtdb.europe-west1.firebasedatabase.app");
+        databaseRef = database.getReference();
 
+
+        //PREFERENCES
         preferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         BACK_COLOR = preferences.getInt("back_color", Color.WHITE);
         setColor();
 
-        FragmentManager manager = getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         fragmentCanvas = (FragmentCanvas) manager.findFragmentById(R.id.fragment_canvas);
-        fragmentPalette = (FragmentPalette) manager.findFragmentById(R.id.fragment_palette);
+        FragmentPalette fragmentPalette = (FragmentPalette) manager.findFragmentById(R.id.fragment_palette);
 
-        fragmentPalette.setStrokeColorListener(new FragmentPalette.ColorStrokeListener() {
-            @Override
-            public void onColorStrokeChange(int color) {
-                fragmentCanvas.updateStrokeColor(color);
-            }
-        });
+        assert fragmentPalette != null;
+        fragmentPalette.setStrokeColorListener(color -> fragmentCanvas.updateStrokeColor(color));
 
         //Light Sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -175,7 +187,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         setColor();
     }
-    
+
+    public void saveCanvas(View view){
+        databaseRef = database.getReference().child("canvas");
+        Map<String, Object> map = new HashMap<>();
+        map.put("canvas", fragmentCanvas.getId());
+        databaseRef.setValue(map);
+    }
+
+    public void getLastCanvas(View view){
+        database.getReference().child("canvas").addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                fragmentCanvas = (FragmentCanvas) manager.findFragmentById(Math.toIntExact((Long) map.get("canvas")));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
     public void setColor(){
         findViewById(R.id.fragment_canvas).setBackgroundColor(BACK_COLOR);
 
