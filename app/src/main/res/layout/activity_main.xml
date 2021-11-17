@@ -52,10 +52,10 @@
 
             <ImageButton
                 android:id="@+id/paletteButton"
-                android:layout_width="60dp"
-                android:layout_height="68dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="30dp"
                 android:layout_marginEnd="16dp"
                 android:background="@mipmap/palete"
                 android:contentDescription="@string/palette"
@@ -63,12 +63,39 @@
                 android:visibility="visible"
                 tools:ignore="ImageContrastCheck,RedundantDescriptionCheck" />
 
+            <Button
+                android:id="@+id/saveCanvasButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="110dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="bottom"
+                android:onClick="saveCanvas"
+                android:text="@string/saveCanvas"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/lastCanvasButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="70dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="bottom"
+                android:onClick="getLastCanvas"
+                android:text="@string/lastCanvas"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
             <FrameLayout
                 android:id="@+id/fragment_palette_frame"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom|start"
                 android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:visibility="visible">
 

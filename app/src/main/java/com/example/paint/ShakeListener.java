@@ -51,11 +51,7 @@ public class ShakeListener implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event){
-
-
-
         long now = System.currentTimeMillis();
-
         if ((now - mLastForce) > SHAKE_TIMEOUT) {
             mShakeCount = 0;
         }

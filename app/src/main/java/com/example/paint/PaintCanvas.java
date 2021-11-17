@@ -6,21 +6,22 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import androidx.annotation.RequiresApi;
 
 public class PaintCanvas extends View implements View.OnTouchListener{
 
     private List<Paint> paintList = new ArrayList<>();
     private List<Path> pathList = new ArrayList<>();
-
     private SharedPreferences preferences;
     private int backGroundColor = Color.WHITE;
     private GestureDetector mGestureDetector;
@@ -51,6 +52,7 @@ public class PaintCanvas extends View implements View.OnTouchListener{
         initPaint();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onDraw(Canvas canvas) {
         int i = 0;
@@ -110,14 +112,14 @@ public class PaintCanvas extends View implements View.OnTouchListener{
     }
 
     public void erase(){
-        pathList.clear();
+        pathList = new ArrayList();
         pathList.add(new Path());
-        paintList.clear();
+        paintList = new ArrayList<>();
         initPaint();
-        Log.d("ENTROU LISTENER: " , "--- abanouuu ---");
+        invalidate();
     }
 
-   private void initPaint(){
+    private void initPaint(){
         paintList.add(new Paint());
         paintList.get(paintList.size()-1).setAntiAlias(true);
         paintList.get(paintList.size()-1).setStrokeWidth(20f);
@@ -126,4 +128,22 @@ public class PaintCanvas extends View implements View.OnTouchListener{
         paintList.get(paintList.size()-1).setStrokeJoin(Paint.Join.ROUND);
     }
 
+    public List<Paint> getPaintList(){
+        return paintList;
+    }
+    public List<Path> getPathList(){
+        return pathList;
+    }
+    public int getBackGroundColor(){
+        return backGroundColor;
+    }
+    public void setPaintList(List<Paint> paintList){
+        this.paintList = paintList;
+    }
+    public void setPathList(List<Path> pathList){
+        this.pathList = pathList;
+    }
+    public void setBackGroundColor(int backGroundColor){
+        this.backGroundColor = backGroundColor;
+    }
 }

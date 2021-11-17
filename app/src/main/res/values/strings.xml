@@ -16,4 +16,6 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="mapDraw">Start Drawing</string>
     <string name="mapStropDraw">Stop Drawing</string>
+    <string name="saveCanvas">Save Canvas</string>
+    <string name="lastCanvas">Last Canvas</string>
 </resources>
