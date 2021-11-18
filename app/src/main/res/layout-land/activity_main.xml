@@ -6,50 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/layoutMain"
+    <fragment
+        android:id="@+id/fragment_canvas"
+        android:name="com.example.paint.FragmentCanvas"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:background="#FDFDFD"
-        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_palette"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_canvas" />
+
+    <fragment
+        android:id="@+id/fragment_palette"
+        android:name="com.example.paint.FragmentPalette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:baselineAligned="false"
-            android:isScrollContainer="true"
-            android:nestedScrollingEnabled="true"
-            android:orientation="horizontal"
-            android:scrollbars="vertical"
-            android:visibility="visible">
-
-            <fragment
-                android:id="@+id/fragment_canvas"
-                android:name="com.example.paint.FragmentCanvas"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                tools:layout="@layout/fragment_canvas" />
-
-            <fragment
-                android:id="@+id/fragment_palette"
-                android:name="com.example.paint.FragmentPalette"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                tools:layout="@layout/fragment_palette">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_palette">
 
 
-            </fragment>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </fragment>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
